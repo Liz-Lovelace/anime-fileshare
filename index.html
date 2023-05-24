@@ -100,7 +100,8 @@
       var urlParams = new URLSearchParams(window.location.search);
       var fileName = decodeURIComponent(window.location.search.split('?').last())
       var fileExtension = fileName.split('.').pop();
-
+      console.log(`fileName is ${fileName}`)
+      
       document.title = fileName;
       document.getElementById('text').innerText = fileName;
 
@@ -109,6 +110,9 @@
         console.log(`Looks like ${fileExtension} is one of the icons...`)
         backgroundImage = `/icons/${fileExtension}.png`;
         changeFavicon(backgroundImage)
+      }
+      if (!fileName.trim()){
+        backgroundImage = '';
       }
 
       console.log(`Setting file icon to ${backgroundImage}`)
