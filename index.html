@@ -3,26 +3,34 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=0.8" />
   <html lang="en">
+  <link rel="icon" type="image/x-icon" href="/icons/_blank.png">
+  <meta name="description" content="Download a file via the world wide web..." />
   <meta charset="utf-8">
-  <title>My Website</title>
+  <title> here is your download </title>
   <style>
-    @font-face {
-      font-family: "moderndos";
-      font-style: normal;
-      font-weight: 500;
-      src: local(""),
-        url("/ModernDOS9x16.ttf") format("truetype");
-    }
-  
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      background: url('background.png') no-repeat center center fixed; 
+      background: #fec513 url('background.jpg') no-repeat center center; 
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
       background-size: cover;
+      font-family: sans-serif;
+    }
+
+    .top-text {
+      color: #0004;
+      text-align: right;
+      margin: 0;
+      padding: 0;
+      margin-right: 10px;
+    }
+
+    a {
+      color: inherit;
+      font-weight: bold;
     }
 
     .image-container {
@@ -31,7 +39,7 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 2;
-      width: 450px;
+      width: 400px;
       pointer-events: none;
       background: url('icons/_blank.png') no-repeat center center fill; 
     }
@@ -40,18 +48,18 @@
       width: 111px;
       height: 111px;
       position: absolute;
-      bottom: 412px;
+      bottom: 367px;
       left: calc(50% - 3px);
       transform: translateX(-50%);
       z-index: 1;
       cursor: pointer;
-      background-size: cover; /* Added this line */
+      background-size: cover;
     }
 
     .text-container {
       position: absolute;
       width: 200px;
-      top: calc(100% - 400px);
+      top: calc(100% - 360px);
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
@@ -60,7 +68,10 @@
     }
 
     #text {
-      font-family: 'moderndos', sans-serif;
+      color: white;
+      text-shadow: 0 0 10px black,
+                   0 0 3px black,
+                   1px 1px 1px black;
       margin: 0;
       padding: 0;
     }
@@ -71,38 +82,51 @@
             return this[this.length - 1];
         };
     };
+    function changeFavicon(src) {
+     var link = document.createElement('link'),
+         oldLink = document.getElementById('dynamic-favicon');
+     link.id = 'dynamic-favicon';
+     link.rel = 'shortcut icon';
+     link.href = src;
+     if (oldLink) {
+      document.head.removeChild(oldLink);
+     }
+     document.head.appendChild(link);
+    }
     
     let availableExtensions = ['aac', 'aiff', 'ai', 'avi', '_blank', 'bmp', 'c', 'cpp', 'css', 'csv', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h', 'hpp', 'html', 'ics', 'iso', 'java', 'jpg', 'js', 'key', 'less', 'mid', 'mp3', 'mp4', 'mpg', 'odf', 'ods', 'odt', 'otp', 'ots', 'ott', '_page', 'pdf', 'php', 'png', 'ppt', 'psd', 'py', 'qt', 'rar', 'rb', 'rtf', 'sass', 'scss', 'sql', 'tga', 'tgz', 'tiff', 'txt', 'wav', 'xls', 'xlsx', 'xml', 'yml', 'zip'];
 
     window.onload = function() {
       var urlParams = new URLSearchParams(window.location.search);
       var fileName = decodeURIComponent(window.location.search.split('?').last())
-      console.log(fileName)
       var fileExtension = fileName.split('.').pop();
 
-      // Change the text to the filename
+      document.title = fileName;
       document.getElementById('text').innerText = fileName;
 
-      // Add the background image to the rectangle based on the file extension
-      let backgroundImage = "url('/icons/_blank.png')";
-      if (availableExtensions.includes(fileExtension))
-        backgroundImage = "url('/icons/" + fileExtension + ".png')";
-        
-      document.getElementsByClassName('rectangle')[0].style.backgroundImage = backgroundImage;
+      let backgroundImage = '/icons/_blank.png';
+      if (availableExtensions.includes(fileExtension)){
+        console.log(`Looks like ${fileExtension} is one of the icons...`)
+        backgroundImage = `/icons/${fileExtension}.png`;
+        changeFavicon(backgroundImage)
+      }
 
-      // Set onclick function to the rectangle
+      console.log(`Setting file icon to ${backgroundImage}`)
+      document.getElementsByClassName('rectangle')[0].style.backgroundImage = `url(${backgroundImage})`;
+
       document.getElementsByClassName('rectangle')[0].onclick = function() {
         var fileUrl = '/files/' + fileName;
-        window.open(fileUrl, '_blank');
+        window.open(fileUrl, '_self');
       }
     }
   </script>
 </head>
 <body>
+  <p class="top-text"> Click the file to download. Made by <a href='https://liz.sex'>Liz</a>. Anime: Nichijou</p>
   <div class="rectangle"></div>
   <img class="image-container" src="holding.png">
   <div class="text-container">
-    <p id="text">Original Text awawawawawawawawawawawawa.zip</p>
+    <p id="text"></p>
   </div>
 </body>
 </html>
