@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=0.8" />
+  <html lang="en">
+  <meta charset="utf-8">
+  <title>My Website</title>
+  <style>
+    @font-face {
+      font-family: "moderndos";
+      font-style: normal;
+      font-weight: 500;
+      src: local(""),
+        url("/ModernDOS9x16.ttf") format("truetype");
+    }
+  
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: url('background.png') no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+    .image-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      width: 450px;
+      pointer-events: none;
+      background: url('icons/_blank.png') no-repeat center center fill; 
+    }
+
+    .rectangle {
+      width: 111px;
+      height: 111px;
+      position: absolute;
+      bottom: 412px;
+      left: calc(50% - 3px);
+      transform: translateX(-50%);
+      z-index: 1;
+      cursor: pointer;
+      background-size: cover; /* Added this line */
+    }
+
+    .text-container {
+      position: absolute;
+      width: 200px;
+      top: calc(100% - 400px);
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 4;
+      word-wrap: break-word;
+    }
+
+    #text {
+      font-family: 'moderndos', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script>
+    if (!Array.prototype.last){
+        Array.prototype.last = function(){
+            return this[this.length - 1];
+        };
+    };
+    
+    let availableExtensions = ['aac', 'aiff', 'ai', 'avi', '_blank', 'bmp', 'c', 'cpp', 'css', 'csv', 'dat', 'dmg', 'doc', 'dotx', 'dwg', 'dxf', 'eps', 'exe', 'flv', 'gif', 'h', 'hpp', 'html', 'ics', 'iso', 'java', 'jpg', 'js', 'key', 'less', 'mid', 'mp3', 'mp4', 'mpg', 'odf', 'ods', 'odt', 'otp', 'ots', 'ott', '_page', 'pdf', 'php', 'png', 'ppt', 'psd', 'py', 'qt', 'rar', 'rb', 'rtf', 'sass', 'scss', 'sql', 'tga', 'tgz', 'tiff', 'txt', 'wav', 'xls', 'xlsx', 'xml', 'yml', 'zip'];
+
+    window.onload = function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var fileName = decodeURIComponent(window.location.search.split('?').last())
+      console.log(fileName)
+      var fileExtension = fileName.split('.').pop();
+
+      // Change the text to the filename
+      document.getElementById('text').innerText = fileName;
+
+      // Add the background image to the rectangle based on the file extension
+      let backgroundImage = "url('/icons/_blank.png')";
+      if (availableExtensions.includes(fileExtension))
+        backgroundImage = "url('/icons/" + fileExtension + ".png')";
+        
+      document.getElementsByClassName('rectangle')[0].style.backgroundImage = backgroundImage;
+
+      // Set onclick function to the rectangle
+      document.getElementsByClassName('rectangle')[0].onclick = function() {
+        var fileUrl = '/files/' + fileName;
+        window.open(fileUrl, '_blank');
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="rectangle"></div>
+  <img class="image-container" src="holding.png">
+  <div class="text-container">
+    <p id="text">Original Text awawawawawawawawawawawawa.zip</p>
+  </div>
+</body>
+</html>
